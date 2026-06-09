@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# exam-prep: ignore everything except Q1/questions
+exam-prep/*
+!exam-prep/Q1
+exam-prep/Q1/*
+!exam-prep/Q1/questions
