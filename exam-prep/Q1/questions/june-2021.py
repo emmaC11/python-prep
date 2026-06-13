@@ -17,10 +17,33 @@ class GuessMyPin():
             if number[pos] != self.__target[pos]:
                 incorrect_digits += 1
 
-        print(f"incorrect digit count: {incorrect_digits}")
         return incorrect_digits
+    
+def solve(game):
+    current_pin = list('xxxxx')
+    current_incorrect_count = game.guess(''.join(current_pin))
+    for pos in range(len(current_pin)):
+        for digit in pool:
+                current_pin[pos] = digit
+                current_pin_str = ''.join(current_pin)
+                incorrect_count = game.guess(current_pin_str)
+
+                if incorrect_count == 0:
+                    print('pin found', current_pin_str)
+                    return
+
+                if incorrect_count < current_incorrect_count:
+                    print('match found - ', current_pin_str)
+                    break
+        current_incorrect_count = incorrect_count
+        
+    print('pin found: ', current_pin_str)
+
+
+
 
 
 
 my = GuessMyPin(5)
-my.guess('13534')
+# my.guess('13534')
+solve(my)
