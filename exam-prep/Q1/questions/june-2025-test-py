@@ -1,0 +1,49 @@
+import unittest
+
+class Basket:
+    prices = {'bread':1.20}
+    def __init__(self):
+        self.__contents = {}
+    def add(self, item, qty):
+        if qty < 0:
+            raise ValueError('quantity cannot be negative')
+        
+        if item not in Basket.prices:
+            raise KeyError('item not recongnised')
+        
+        self.__contents[item] = self.__contents.get(item, 0) + qty
+
+    def value(self):
+        total = 0
+        for i in self.__contents:
+            total += self.__contents[i]*Basket.prices[i]
+        return total
+    
+
+    
+class TestBasket(unittest.TestCase):
+    def setUp(self):
+        self.b = Basket()
+
+    def test_basket_value_0(self):
+        self.assertEqual(self.b.value(), 0)
+
+    def test_basket_two_bread(self):
+        self.b.add('bread',2)
+        self.assertAlmostEqual(self.b.value(), 2.40, places=2)
+
+    def test_basket_two_more_break(self):
+        self.b.add('bread',2)
+        self.b.add('bread',2)
+        self.assertAlmostEqual(self.b.value(), 4.80, places=2)
+
+    def test_negative_quantities_raises_exception(self):
+        with self.assertRaises(Exception):
+            self.b.add('bread', -1)
+
+    def test_nonexistent_product_raises_exception(self):
+        with self.assertRaises(Exception):
+            self.b.add('cocoa', 1)
+            self.b.value()
+
+unittest.main(argv=[''], exit=False)
